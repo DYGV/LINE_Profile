@@ -1,0 +1,4 @@
+beautifulsoup4==4.6.0
+olefile==0.44
+Pillow==4.2.1
+selenium==3.5.0
