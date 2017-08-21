@@ -1,4 +1,4 @@
-﻿﻿#Get LINE profile images added as a friend.
+﻿# **Get LINE profile images added as a friend.
 (excluding official accounts)
 This code may be incomplete.
 
