@@ -10,7 +10,12 @@ from selenium.webdriver.support import expected_conditions as EC
 
 
 def line_profile(address, password):
-    driver = webdriver.PhantomJS("path to phantomjs.exe",
+    phantomjs_path = 'path to phantomjs.exe'
+    try:
+        f = open(phantomjs_path)
+    except FileNotFoundError as e:
+        raise
+    driver = webdriver.PhantomJS(phantomjs_path,
                                  desired_capabilities={'phantomjs.page.settings.resourceTimeout': '10000'})
 
     wait = WebDriverWait(driver, 30)
