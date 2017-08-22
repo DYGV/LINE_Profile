@@ -24,7 +24,7 @@ def line_profile(address, password):
     driver.find_element_by_class_name('i1').click()  # Click login button
     time.sleep(5)
 
-    wait.until(lambda driver: driver.current_url != "https://timeline.line.me/")  # to wait the change from first page
+    wait.until(lambda driver: driver.current_url != "https://timeline.line.me/")  # Wait the change from first page
     print(driver.current_url)
 
     elem_id = driver.find_element_by_id('id')  # e-mail address input place
@@ -42,12 +42,12 @@ def line_profile(address, password):
     wait.until(EC.presence_of_all_elements_located)
     driver.implicitly_wait(10)
 
-    n = driver.find_element_by_tag_name("em").text  # find the friends number to calculate scroll count
+    n = driver.find_element_by_tag_name("em").text  # Find the friends number to calculate scroll count
 
     wait.until(EC.presence_of_all_elements_located)
     time.sleep(3)
 
-    for scroll_count in range(0, int(n) // 19):  # calculate scroll count
+    for scroll_count in range(0, int(n) // 19):  # Calculate scroll count
         # scroll list using javascript
         driver.execute_script('document.getElementsByClassName("friends_list")[0].scrollIntoView(false);')
     time.sleep(5)
@@ -55,7 +55,6 @@ def line_profile(address, password):
     data = BeautifulSoup(driver.page_source.encode('utf-8'))
     time.sleep(5)
 
-#    for friends_list in data.find_all('ul', attrs={'class': 'friends_list'}):
     for friends_list_li in data.select("ul.friends_list > li"):
         name = friends_list_li.find("dt", class_="friend_name")
         img = friends_list_li.find("img", class_="")
