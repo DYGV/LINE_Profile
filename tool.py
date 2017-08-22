@@ -10,21 +10,11 @@ from selenium.webdriver.support import expected_conditions as EC
 
 
 def line_profile(address, password):
-    phantomjs_path = 'path to phantomjs.exe'
-    try:
-        f = open(phantomjs_path)
-    except FileNotFoundError as e:
-        raise
-    driver = webdriver.PhantomJS(phantomjs_path,
-                                 desired_capabilities={'phantomjs.page.settings.resourceTimeout': '10000'})
-
-    wait = WebDriverWait(driver, 30)
-
-    driver.get("https://timeline.line.me/")  # access to this address
+    driver.get('https://timeline.line.me/')  # access to this address
     driver.find_element_by_class_name('i1').click()  # Click login button
     time.sleep(5)
 
-    wait.until(lambda driver: driver.current_url != "https://timeline.line.me/")  # Wait the change from first page
+    wait.until(lambda driver: driver.current_url != 'https://timeline.line.me/')  # Wait the change from first page
     print(driver.current_url)
 
     elem_id = driver.find_element_by_id('id')  # e-mail address input place
@@ -34,7 +24,7 @@ def line_profile(address, password):
 
     driver.find_element_by_class_name('MdBtn03Login').click()  # Click the Login button
 
-    wait.until(lambda driver: driver.current_url == "https://timeline.line.me/")
+    wait.until(lambda driver: driver.current_url == 'https://timeline.line.me/')
     wait.until(EC.presence_of_all_elements_located)
     driver.implicitly_wait(10)
 
@@ -42,7 +32,7 @@ def line_profile(address, password):
     wait.until(EC.presence_of_all_elements_located)
     driver.implicitly_wait(10)
 
-    n = driver.find_element_by_tag_name("em").text  # Find the friends number to calculate scroll count
+    n = driver.find_element_by_tag_name('em').text  # Find the friends number to calculate scroll count
 
     wait.until(EC.presence_of_all_elements_located)
     time.sleep(3)
@@ -55,23 +45,33 @@ def line_profile(address, password):
     data = BeautifulSoup(driver.page_source.encode('utf-8'))
     time.sleep(5)
 
-    for friends_list_li in data.select("ul.friends_list > li"):
-        name = friends_list_li.find("dt", class_="friend_name")
-        img = friends_list_li.find("img", class_="")
+    for friends_list_li in data.select('ul.friends_list > li'):
+        name = friends_list_li.find('dt', class_='friend_name')
+        img = friends_list_li.find('img', class_='')
         print(name.span.string)
-        print(img["src"])
+        print(img['src'])
 
         try:
             req_img = urllib.request.urlopen(img["src"])
             image_file = io.BytesIO(req_img.read())
             im = Image.open(image_file)
-            im.save("./profile_img/{0}.jpg".format(name.span.string))
+            im.save('./profile_img/{0}.jpg'.format(name.span.string))
         except:
             pass
 
 if __name__ == "__main__":
 
+    phantomjs_path = 'path to phantomjs.exe'
+    try:
+        f = open(phantomjs_path)
+    except FileNotFoundError as e:
+        print('Program path not found.')
+
+    driver = webdriver.PhantomJS(phantomjs_path,
+                                 desired_capabilities={'phantomjs.page.settings.resourceTimeout': '10000'})
+    wait = WebDriverWait(driver, 30)
+
     address = input('enter a e-mail address: ')
     password = input('enter a password: ')
-    print("Please wait...")
+    print('Please wait...')
     line_profile(address, password)
