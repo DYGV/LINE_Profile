@@ -7,13 +7,13 @@ from PIL import Image
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
 
 
 def line_profile(address, password):
     driver.get('https://timeline.line.me/')  # access to this address
     driver.find_element_by_class_name('i1').click()  # Click login button
-    wait.until(lambda driver: driver.current_url != 'https://timeline.line.me/')  # Wait the change from first page
-    wait.until(EC.presence_of_all_elements_located)
+    wait.until(EC.presence_of_element_located((By.ID, "id")))
 
     elem_id = driver.find_element_by_id('id')  # e-mail address input place
     elem_id.send_keys(address)
@@ -36,7 +36,6 @@ def line_profile(address, password):
     time.sleep(5)
 
     data = BeautifulSoup(driver.page_source.encode('utf-8'))
-    time.sleep(5)
 
     for friends_list_li in data.select('ul.friends_list > li'):
         name = friends_list_li.find('dt', class_='friend_name')
