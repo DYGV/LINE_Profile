@@ -13,7 +13,7 @@ from selenium.webdriver.common.by import By
 def line_profile(address, password):
     driver.get('https://timeline.line.me/')  # access to this address
     driver.find_element_by_class_name('i1').click()  # Click login button
-    wait.until(EC.presence_of_element_located((By.ID, "id")))
+    wait.until(EC.presence_of_element_located((By.ID, 'id')))
 
     elem_id = driver.find_element_by_id('id')  # e-mail address input place
     elem_id.send_keys(address)
@@ -44,7 +44,7 @@ def line_profile(address, password):
         print(img['src'])
 
         try:
-            req_img = urllib.request.urlopen(img["src"])
+            req_img = urllib.request.urlopen(img['src'])
             image_file = io.BytesIO(req_img.read())
             im = Image.open(image_file)
             im.save('./profile_img/{0}.jpg'.format(name.span.string))
