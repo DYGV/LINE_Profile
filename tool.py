@@ -12,30 +12,23 @@ from selenium.webdriver.support import expected_conditions as EC
 def line_profile(address, password):
     driver.get('https://timeline.line.me/')  # access to this address
     driver.find_element_by_class_name('i1').click()  # Click login button
-    time.sleep(5)
-
     wait.until(lambda driver: driver.current_url != 'https://timeline.line.me/')  # Wait the change from first page
-    print(driver.current_url)
+    wait.until(EC.presence_of_all_elements_located)
 
     elem_id = driver.find_element_by_id('id')  # e-mail address input place
     elem_id.send_keys(address)
     elem_password = driver.find_element_by_id('passwd')  # e-mail address input place
     elem_password.send_keys(password)
-
     driver.find_element_by_class_name('MdBtn03Login').click()  # Click the Login button
 
     wait.until(lambda driver: driver.current_url == 'https://timeline.line.me/')
     wait.until(EC.presence_of_all_elements_located)
-    driver.implicitly_wait(10)
 
     driver.find_element_by_xpath('//*[@class="sp sp_gnb_friends _c_ex"]').click()  # Click the friends list button
     wait.until(EC.presence_of_all_elements_located)
-    driver.implicitly_wait(10)
 
     n = driver.find_element_by_tag_name('em').text  # Find the friends number to calculate scroll count
-
     wait.until(EC.presence_of_all_elements_located)
-    time.sleep(3)
 
     for scroll_count in range(0, int(n) // 19):  # Calculate scroll count
         # scroll list using javascript
